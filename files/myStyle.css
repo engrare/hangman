@@ -14,22 +14,24 @@ body {
 .inner_div {
 	height: 100%;
 	display: flex;
+	
 }
 
 .inner_div_left {
-	width: 90%;
+	width: 85%;
 	flex-direction: column;
+	    justify-content: space-between;
 }
 
 .inner_div_right {
-	width: 10%;
+	width: 15%;
 	flex-direction: column;
     justify-content: space-evenly;
 	
 }
 
 .div_header_inner {
-	witdh: 100%;
+	width: 100%;
 }
 
 .hangman_header_text {
@@ -59,10 +61,11 @@ body {
 
 .hangman_draw {
 	position: relative;
+	visibility: hidden;
 }
 
 .hangman_outer {
-	height: 600px;
+	height: 200px;
 }
 
 .hangman_draw_head {
@@ -96,25 +99,47 @@ body {
 	top: 272px;
 }
 
+.game_over_div {
+	margin-bottom: 100px;
+}
+
+.game_over_text {
+	text-align: center;
+	font-size: 100px;
+	color: red;
+	display: none;
+}
+
+
 .words_div {
+	display: flex;
+	justify-content: center;
+}
+
+.words_letters_inner {
+	margin: 10px;
+	font-size: 100px;
+}
+
+.letters_div {
 	display: flex;
 	flex-direction: column;
 	margin: 20px;
 	
 }
 
-.words_div_vowel {
+.letters_div_vowel {
 	display: flex;
 	margin: 10px;
 }
 
-.words_div_consonant {
+.letters_div_consonant {
 	display: flex;
 	margin: 10px;
 	
 }
 
-.words_inner {
+.letters_inner {
 	height: 45px;
 	width: 45px;
 	font-size: 26px;
@@ -128,10 +153,67 @@ body {
 	border-style: solid;
 	background: #f5d969;
 	margin: 5px;
-	cursor: pointer;
+	cursor: pointer;	
+	animation-duration: 0.05s;
+	
 }
 
-.word_inner_selected {
+.letters_inner:hover {
+	animation-name: hover1;
+    animation-timing-function: ease;
+	box-shadow: 2px 2px 3px grey;
+}
+
+.letters_inner_selected {
 	border-color: #ff8800 !important;
 	background: #fcac51 !important;
+}
+
+.letters_inner_true {
+	border-color: blue !important;
+	background: blue !important;
+}
+
+.letters_inner_false {
+	border-color: red !important;
+	background: red !important;
+}
+
+.submit_button_outer {
+	display: flex;
+	justify-content: center;
+}
+
+.submit_button_inner_1 {
+	border-radius: 20px;
+	border-style: solid;
+	margin-top: 0px;
+	margin-bottom: 30px;
+	cursor: pointer;
+	color: #000000;
+	border-color: #cf1278;
+	background: #E779CB;
+	animation-duration: 0.1s;
+	
+}
+
+.submit_button_inner_1:hover {
+	animation-name: hover1;
+    animation-timing-function: ease;
+	box-shadow: 2px 2px 3px grey;
+}
+
+.submit_button_inner_2 {
+	font-size: 35px;
+	margin: 10px 20px;
+}
+
+@keyframes hover1 {
+  0%   {box-shadow: 0px 0px grey;}
+  100%  {box-shadow: 2px 2px 3px grey;}
+}
+
+@keyframes hover2 {
+  0%   {box-shadow: 0px 0px grey;}
+  100%  {box-shadow: 10px 10px 5px grey;}
 }

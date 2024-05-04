@@ -1,3 +1,75 @@
+var trueword = "kayanin kedisi";
+var hangingpercentage = 0;
+
+
+fetch('https://raw.githubusercontent.com/eylulberil/encoded_key/main/keys.json')
+  .then(response => response.json())
+  .then(myObj => {
+	encrypted_key = myObj[0];
+	console.log(encrypted_key);
+	
+  })
+  .catch(error => {
+    // Handle any errors that occur during the fetch request
+    console.log('Error:', error);
+  });
+
+
+
+$( document ).ready(function() {
+	var wordlen = trueword.length;
+	for(let i = 0; i < wordlen-1; i++) {
+		if(trueword[i+1] == " ") {
+			$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" ).text(" ");
+		} else {
+			$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
+
+		}
+	}
+
+
+	
+$( ".letters_inner" ).on( "click", function() {
+	if(!($(this).hasClass( "letters_inner_true" ) || $(this).hasClass( "letters_inner_false" ))) {
+		$(".letters_inner").removeClass("letters_inner_selected");
+		$(this).addClass("letters_inner_selected");
+		
+	}
+	
+});
+	
+$( ".submit_button_inner_1" ).on( "click", function() {
+	if($( ".letters_inner" ).hasClass( "letters_inner_selected" ) && hangingpercentage < 6) {
+		let word_txt = $(".letters_inner_selected").text();
+		let iswordtrue = false;
+		for(let i = 0; i < wordlen; i++) {
+			if(trueword[i].toLowerCase() == word_txt.toLowerCase()) {
+				$(".words_letters_inner:eq(" + i + ")").text(word_txt);
+				iswordtrue = true;
+			}
+		}
+		
+		if(iswordtrue == false) {
+			$(".letters_inner_selected").addClass("letters_inner_false");
+			$(".hangman_draw:eq(" + hangingpercentage + ")").css("visibility", "visible");
+			hangingpercentage++;
+			if(hangingpercentage == 6) {
+				$(".game_over_text").css("display", "block");
+			}
+		}
+		else {
+			$(".letters_inner_selected").addClass("letters_inner_true");
+			$(".letters_inner_selected").css("background", "blue");
+			
+		}
+		
+		$( ".letters_inner_selected" ).removeClass( "letters_inner_selected" );
+		}
+
+});
+
+  
+});
 
 
 
