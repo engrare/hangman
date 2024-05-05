@@ -1,0 +1,139 @@
+<!-- Copyright 2023-2024 Eylül Beril Yurttaş. All Rights Reserved.  -->
+<!DOCTYPE html>
+<html  lang="tr" dir="ltr" data-cast-api-enabled="true">
+<head>
+<title>HANGMAN Game</title>
+<link rel="icon" href="./files/hangman_icon.png" type="image/gif" sizes="48x48">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0, minimum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.engrare.com/files/photos/title_icon.png" />
+<meta property="og:image:width" content="100" />
+<meta property="og:image:height" content="100" />
+<meta property="twitter:image" content="https://www.engrare.com/files/photos/title_icon.png"  />
+<meta property="og:title" content="Adam Asmaca">
+<meta property="og:url" content="https://www.engrare.com">
+<meta property="og:description" content="Adam Asmaca Oyununa Hoş Geldiniz.">
+<meta content="Adam Asmaca Oyununa Hoş Geldiniz." name="description">
+<link href='https://fonts.googleapis.com/css?family=Atkinson Hyperlegible|Bebas Neue|Montserrat' rel='stylesheet'>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
+
+<script src="files/myScript.js"></script>
+<link rel="stylesheet" href="files/myStyle.css">
+
+
+</head>
+
+<body>
+
+<div class="outer_div">
+<div class="inner_div inner_div_left">
+<div class="div_header_inner"><p class="hangman_header_text">HANGMAN HOST</p></div>
+<div class="hangman_outer">
+	<svg width="400" height="100" viewBox="0 0 400 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="5" width="5" height="400" transform="rotate(-90 0 5)" fill="black"/>
+<rect x="396.25" y="1.25" width="2.5" height="97.5" fill="black" stroke="black" stroke-width="2.5"/>
+</svg>
+		<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="hangman_draw hangman_draw_head">
+<circle cx="50" cy="50" r="47.5" stroke="black" stroke-width="5"/>
+</svg>
+	<svg width="5" height="100" viewBox="0 0 5 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="hangman_draw hangman_draw_body">
+<rect width="5" height="100" fill="black"/>
+</svg>
+	
+	
+
+
+
+	
+	<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="hangman_draw hangman_draw_left_arm">
+<rect x="60.1041" width="5" height="85" transform="rotate(45 60.1041 0)" fill="black"/>
+</svg>
+
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="hangman_draw hangman_draw_right_arm">
+<rect y="3.70711" width="5" height="85" transform="rotate(-45 0 3.70711)" fill="black"/>
+</svg>
+	
+	<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" class="hangman_draw hangman_draw_left_leg">
+<rect x="70.7107" width="5" height="100" transform="rotate(45 70.7107 0)" fill="black"/>
+</svg>
+	
+	
+<svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg" class="hangman_draw hangman_draw_right_leg">
+<rect y="3.70711" width="5" height="100" transform="rotate(-45 0 3.70711)" fill="black"/>
+</svg>
+	
+	</div>
+<div class="game_over_div">
+	<div class="game_over_text">GAME OVER</div>
+</div>
+<div class="words_div">
+	<div class="words_letters_inner" contentEditable="true">TEXT</div>
+</div>
+	
+	
+	
+<div class="letters_div">
+	
+<div class="letters_div_vowel">
+<div class="letters_inner">A</div>
+<div class="letters_inner">E</div>
+<div class="letters_inner">I</div>
+<div class="letters_inner">O</div>
+<div class="letters_inner">U</div>
+</div>
+<div class="letters_div_consonant">
+<div class="letters_inner">B</div>
+<div class="letters_inner">C</div>
+<div class="letters_inner">D</div>
+<div class="letters_inner">F</div>
+<div class="letters_inner">G</div>
+<div class="letters_inner">H</div>
+<div class="letters_inner">J</div>
+<div class="letters_inner">K</div>
+<div class="letters_inner">L</div>
+<div class="letters_inner">M</div>
+<div class="letters_inner">N</div>
+<div class="letters_inner">P</div>
+<div class="letters_inner">Q</div>
+<div class="letters_inner">R</div>
+<div class="letters_inner">S</div>
+<div class="letters_inner">T</div>
+<div class="letters_inner">V</div>
+<div class="letters_inner">W</div>
+<div class="letters_inner">X</div>
+<div class="letters_inner">Y</div>
+<div class="letters_inner">Z</div>
+</div>
+	
+	
+</div>
+	
+<div class="submit_button_outer">
+	<div class="submit_button_inner_1">
+		<div class="submit_button_inner_2">
+			SUBMIT
+		</div>
+	</div>
+</div>
+	
+</div>
+
+
+<div class="inner_div inner_div_right">
+<div class="player_inner_div">Player 1</div>
+<div class="player_inner_div">Player 2</div>
+<div class="player_inner_div">Player 3</div>
+
+</div>
+
+</div>
+
+
+
+
+</body>
+</html>
