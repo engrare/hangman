@@ -136,7 +136,7 @@ body {
 .letters_div_consonant {
 	display: flex;
 	margin: 10px;
-	
+	flex-wrap: wrap;
 }
 
 .letters_inner {
@@ -170,13 +170,13 @@ body {
 }
 
 .letters_inner_true {
-	border-color: blue !important;
-	background: blue !important;
+	border-color: #7ec400 !important;
+	background: #47FF5C !important;
 }
 
 .letters_inner_false {
-	border-color: red !important;
-	background: red !important;
+	border-color: #D81114 !important;
+	background: #D84D50 !important;
 }
 
 .submit_button_outer {

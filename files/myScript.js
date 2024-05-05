@@ -1,31 +1,88 @@
-var trueword = "kayanin kedisi";
+var trueword = "ananas";
 var hangingpercentage = 0;
+var worddatajson = null;
+var url = $(location).attr("href");
+var player_num = parseInt(url[url.indexOf('?p')+2]);
+var playable = false;
+var myJson = {
+	"letter": "c"
+};
 
 
-fetch('https://raw.githubusercontent.com/eylulberil/encoded_key/main/keys.json')
-  .then(response => response.json())
-  .then(myObj => {
-	encrypted_key = myObj[0];
-	console.log(encrypted_key);
-	
-  })
-  .catch(error => {
-    // Handle any errors that occur during the fetch request
-    console.log('Error:', error);
-  });
+function fetchWordData() {
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json?' + new Date().getTime())
+	  .then(response => response.json())
+	  .then(myObj => {
+		worddatajson = myObj;
+		console.log(worddatajson);
+		if(worddatajson.turn == player_num) {
+			playable = true;
+		} else {
+			playable = false;
+		}
+		$( ".player_inner_div" ).removeClass("current_player_inner_div");
+		$( ".player_inner_div:eq(" + (worddatajson.turn-1) + ")" ).addClass("current_player_inner_div");
+		
+		var wordlen = worddatajson.word.length;
+		currentwordlen = $( ".words_letters_inner" ).length;
+		if(currentwordlen < wordlen) {
+			for(let i = currentwordlen; i < wordlen; i++) {
+				$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
+			}
+		} else {
+			for(let i = wordlen; i < currentwordlen; i++) {
+				$( ".words_letters_inner:eq("+ i +")" ).remove();
+			}
+		}
+		for(let i = 0; i < wordlen; i++) {
+			$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
+		}
+		var totaltel = $( ".letters_inner" ).length;
+		
+		var falseletcount = worddatajson.falselets.length;
+		var state;
+		for(let i = 0; i < totaltel; i++) {
+			state = 0;
+			for(let j = 0; j < falseletcount; j++) {
+				if(worddatajson.falselets[j].toUpperCase() == $( ".letters_inner:eq("+ i +")" ).text().toUpperCase()) {
+					$( ".letters_inner:eq("+ i +")" ).addClass("letters_inner_false");
+					state++;
+				}
+			}
+			for(let j = 0; j < wordlen; j++) {
+				if(worddatajson.word[j].toUpperCase() == $( ".letters_inner:eq("+ i +")" ).text().toUpperCase()) {
+					$( ".letters_inner:eq("+ i +")" ).addClass("letters_inner_true");
+					state++;
+				}
+			}
+			if(!state) {
+				$( ".letters_inner:eq("+ i +")" ).removeClass("letters_inner_false");
+				$( ".letters_inner:eq("+ i +")" ).removeClass("letters_inner_true");
+				
+			}
+				//$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
+		}
+		
+		for(let i = 0; i < falseletcount; i++) {
+			$(".hangman_draw:eq(" + i + ")").css("visibility", "visible");
+		}
+
+	  })
+	  .catch(error => {
+		// Handle any errors that occur during the fetch request
+		console.log('Error:', error);
+	  });
+	setTimeout(fetchWordData, 5000);
+}
 
 
 
 $( document ).ready(function() {
-	var wordlen = trueword.length;
-	for(let i = 0; i < wordlen-1; i++) {
-		if(trueword[i+1] == " ") {
-			$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" ).text(" ");
-		} else {
-			$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
+	fetchWordData();
+	//uploadJSON(myJson);
+	
+	//$(".hangman_header_text").text("test yazı alanı");
 
-		}
-	}
 
 
 	
@@ -33,38 +90,15 @@ $( ".letters_inner" ).on( "click", function() {
 	if(!($(this).hasClass( "letters_inner_true" ) || $(this).hasClass( "letters_inner_false" ))) {
 		$(".letters_inner").removeClass("letters_inner_selected");
 		$(this).addClass("letters_inner_selected");
-		
+		myJson.letter = $(this).text();
 	}
 	
 });
 	
 $( ".submit_button_inner_1" ).on( "click", function() {
-	if($( ".letters_inner" ).hasClass( "letters_inner_selected" ) && hangingpercentage < 6) {
-		let word_txt = $(".letters_inner_selected").text();
-		let iswordtrue = false;
-		for(let i = 0; i < wordlen; i++) {
-			if(trueword[i].toLowerCase() == word_txt.toLowerCase()) {
-				$(".words_letters_inner:eq(" + i + ")").text(word_txt);
-				iswordtrue = true;
-			}
-		}
-		
-		if(iswordtrue == false) {
-			$(".letters_inner_selected").addClass("letters_inner_false");
-			$(".hangman_draw:eq(" + hangingpercentage + ")").css("visibility", "visible");
-			hangingpercentage++;
-			if(hangingpercentage == 6) {
-				$(".game_over_text").css("display", "block");
-			}
-		}
-		else {
-			$(".letters_inner_selected").addClass("letters_inner_true");
-			$(".letters_inner_selected").css("background", "blue");
-			
-		}
-		
-		$( ".letters_inner_selected" ).removeClass( "letters_inner_selected" );
-		}
+	if(worddatajson.turn == player_num) {
+		uploadJSON(myJson);
+	}
 
 });
 
@@ -78,21 +112,17 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 
 
 
-function uploadJSON(json_object, key, isWebUpload) {
+function uploadJSON(json_object) {
   // Update the data as desired
   /*const updatedData = {
     someKey: 'çok seviyorum'
   };*/
-
-  //const token = 'ghp_ıaıjdfıoahjıthfq3hıahgıahegıfhıaehgodebngo';
-  var token = key;
-  const repoOwner = 'eylulberil';
-  var repoName = 'ristrecded-engrare-data';
-  var filePath = './data.json';
-	if(arguments.length == 3) {
-	  var repoName = 'engrare-data';
-	  var filePath = './data.json';
-	}
+	var encoded_token = "Z2hwX3ZEQ0ZtOGtEZVlCTHk1QnlHYUpuR1k5cVNHeVdBQTNYT0NpVw==";
+	var token = atob(encoded_token);
+  //var token = key;
+  const repoOwner = 'kayas2';
+  var repoName = 'kayarepo1';
+  var filePath = './datap' + player_num + '.json';
 
   // Convert the updated data to JSON
   const updatedJsonData = JSON.stringify(json_object, null, 2);
