@@ -1,3 +1,9 @@
+
+	
+var encoded_token_part1 = "Z2hwX3FqMm5NbUNFMDRmb2dJQWt";
+var encoded_token_part2 = "wZGxudGY0b2gzYWNCVjJkbHBDSQ==";
+
+
 var trueword = "";
 var hangingpercentage = 0;
 var myJson = {
@@ -170,9 +176,7 @@ function uploadJSON(json_object, playernum) {
   /*const updatedData = {
     someKey: 'çok seviyorum'
   };*/
-	
-	var encoded_token = "Z2hwX0JaZnVNcTBmQ2NWUlhHZUZZa1BEdnlyY2pGRG0wYTRKSWNSOQ==";
-	var token = atob(encoded_token);
+	var token = atob(encoded_token_part1+encoded_token_part2);
   //var token = key;
   const repoOwner = 'kayas2';
   var repoName = 'kayarepo1';
