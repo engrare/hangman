@@ -1,5 +1,4 @@
 var trueword = "";
-const key_cookie = "repokeycookie";
 var hangingpercentage = 0;
 var myJson = {
 	"word": "",
@@ -172,7 +171,7 @@ function uploadJSON(json_object, playernum) {
     someKey: 'çok seviyorum'
   };*/
 	
-	var encoded_token = "Z2hwX3ZEQ0ZtOGtEZVlCTHk1QnlHYUpuR1k5cVNHeVdBQTNYT0NpVw==";
+	var encoded_token = "Z2hwX0JaZnVNcTBmQ2NWUlhHZUZZa1BEdnlyY2pGRG0wYTRKSWNSOQ==";
 	var token = atob(encoded_token);
   //var token = key;
   const repoOwner = 'kayas2';
