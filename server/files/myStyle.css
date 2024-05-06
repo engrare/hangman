@@ -137,7 +137,7 @@ body {
 .letters_div_consonant {
 	display: flex;
 	margin: 10px;
-	
+	flex-wrap: wrap;
 }
 
 .letters_inner {
