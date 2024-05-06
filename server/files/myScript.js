@@ -103,8 +103,12 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json?' + n
 		}
 	}
 	if(word_changed) {
+		if(myJson.turn == 3) {
+			myJson.turn = 1;
+		} else {
+			myJson.turn++;
+		}
 		uploadJSON(myJson);
-		
 	}
 	
 	setTimeout(playerDataFetcher, 5000);
