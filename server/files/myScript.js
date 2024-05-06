@@ -3,25 +3,17 @@ var encoded_token_part2 = "wZGxudGY0b2gzYWNCVjJkbHBDSQ==";
 
 
 var trueword = "";
-var hangingpercentage = 0;
 var myJson = {
 	"word": "",
 	"falselets": "",
 	"turn": 1
 };
-var myOldJson = null;
 
-var playersJson = [
-	{},{},{}
-	
-	
-];
+var playersJson = [	{},{},{} ];
 
 var emptyletJson = {
 	"letter": ""
 };
-
-var oldletters = ["", "", ""];
 
 var is_first = true;
 var is_game_started = false;
@@ -145,12 +137,10 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		myJson.word = "";
 		myJson.falselets = "";
 		myJson.turn = 1;
-		for(let i = 0; i < oldletters.length; i++)
-			oldletters[i] = "";
 			
 		setTimeout(playerDataFetcher, 5000);
 		uploadJSON(myJson);
-		
+		deleteCookie("truewordcookiename");
 		setWord("");
 		$( ".submit_button_inner_2" ).text("SUBMIT");
 	}
@@ -165,6 +155,7 @@ function setWord(newword) {
 		$(".words_letters_inner:not(:first)").remove();
 		$(".words_letters_inner:first").attr('contenteditable','true').text("TEXT");
 	} else {
+		$(".words_letters_inner:not(:first)").remove();
 		$(".words_letters_inner").text("_").attr('contenteditable','false');
 		for(let i = 0; i < newword.length-1; i++) {
 			$(".words_letters_inner:first").clone().appendTo(".words_div").text("_");
@@ -241,7 +232,6 @@ function uploadJSON(json_object, playernum) {
     })
     .then((response) => {
       if (response.ok) {
-		  myOldJson = json_object; 
         console.log('JSON file updated successfully');
 		 // $("#warning_for_acc_upload").text("Başarıyla güncelleme yapıldı.").show().fadeOut(1500);
 		  return 0;
