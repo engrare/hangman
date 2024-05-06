@@ -1,5 +1,3 @@
-
-	
 var encoded_token_part1 = "Z2hwX3FqMm5NbUNFMDRmb2dJQWt";
 var encoded_token_part2 = "wZGxudGY0b2gzYWNCVjJkbHBDSQ==";
 
@@ -34,7 +32,7 @@ function playerDataFetcher() {
   .then(response => response.json())
   .then(myObj => {
 	playersJson[0] = myObj;
-	//console.log(playersJson[0]);
+	console.log(playersJson[0]);
 	
   })
   .catch(error => {
@@ -84,26 +82,30 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json?' + n
     console.log('Error:', error);
   });
 }
-	
-	if(playersJson[myJson.turn-1].letter != oldletters[myJson.turn-1]) {
-		
-		if(myJson.turn == 3) {
-			myJson.turn = 1;
+	let inputletter = playersJson[myJson.turn-1].letter;
+	let word_changed = false;
+	if(inputletter != "") {
+		if(trueword.includes(inputletter)) {
+			if(!myJson.word.includes(inputletter)) {
+				for(let i = 0; i < trueword.length; i++) {
+					if(inputletter == trueword[i]) {
+						myJson.word = myJson.word.slice(0, i) + trueword[i] + myJson.word.slice(i+1, trueword.length);
+						setWord(myJson.word);
+						word_changed = true;
+					}
+				}
+			}
 		} else {
-			myJson.turn++;
-		}
-		var is_let_true = false;
-		for(let i = 0; i < trueword.length; i++) {
-			if(playersJson[myJson.turn-1].letter == trueword[i]) {
-				myJson.word = myJson.word.slice(0, i) + trueword[i] + myJson.word.slice(i+1, trueword.length);
-				is_let_true = true;
+			if(!myJson.falselets.includes(inputletter)) {
+				myJson.falselets += inputletter;
+				word_changed = true;
 			}
 		}
-		if(!is_let_true) {
-			myJson.falselets += playersJson[myJson.turn-1].letter;
-		}
 	}
-	
+	if(word_changed) {
+		uploadJSON(myJson);
+		
+	}
 	
 	setTimeout(playerDataFetcher, 5000);
 }
