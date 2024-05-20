@@ -8,14 +8,25 @@ var url = $(location).attr("href");
 var player_num = parseInt(url[url.indexOf('?p')+2]);
 var playable = false;
 var myJson = {
-	"letter": "c"
+	"letter": "c",
+	"playername": ""
 };
 
 
+        var myHeaders = new Headers();
+        myHeaders.append('pragma', 'no-cache');
+        myHeaders.append('cache-control', 'no-cache');
 
+        var myInit = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+
+        var myRequest = new Request('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json');
 
 function fetchWordData() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', {  cache: 'no-cache' })
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', {  
+  method: 'GET', cache: 'no-cache' })
 	  .then(response => response.json())
 	  .then(myObj => {
 		worddatajson = myObj;
@@ -35,7 +46,7 @@ function fetchWordData() {
 				$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
 			}
 		} else {
-			for(let i = wordlen; i < currentwordlen+1; i++) {
+			for(let i = wordlen; i < currentwordlen; i++) {
 				$( ".words_letters_inner:eq("+ i +")" ).remove();
 			}
 		}
