@@ -11,18 +11,11 @@ var myJson = {
 	"letter": "c"
 };
 
-var myHeaders = new Headers();
-myHeaders.append('pragma', 'no-cache');
-myHeaders.append('cache-control', 'no-cache');
 
-var myInit = {
-  method: 'GET',
-  headers: myHeaders,
-};
 
 
 function fetchWordData() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', myInit)
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', {  cache: 'no-cache' })
 	  .then(response => response.json())
 	  .then(myObj => {
 		worddatajson = myObj;
