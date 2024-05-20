@@ -11,6 +11,7 @@ var myJson = {
 	"letter": "c",
 	"playername": ""
 };
+var wordURL = "";
 
 var token = atob(encoded_token_part1+encoded_token_part2);
 
@@ -25,10 +26,19 @@ const myInit = {
 };
 
 function fetchWordData() {
-	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/worddata.json?timestamp=' + new Date().getTime();
+	wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/worddata.json?timestamp=' + new Date().getTime();
 	fetch(wordURL, myInit)
-	  .then(response => response.json())
-	  .then(myObj => {
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok ' + response.statusText);
+	}
+	return response.json();
+})
+.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
 		worddatajson = myObj;
 		console.log(worddatajson);
 		if(worddatajson.turn == player_num) {
@@ -46,9 +56,16 @@ function fetchWordData() {
 				$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
 			}
 		} else {
-			for(let i = wordlen; i < currentwordlen; i++) {
-				$( ".words_letters_inner:eq("+ i +")" ).remove();
+			if(wordlen > 1) {			
+				for(let i = wordlen; i < currentwordlen; i++) {
+					$( ".words_letters_inner:eq("+ i +")" ).remove();
+				}
+				
+			} else {
+				$( ".words_letters_inner:not(:first)" ).remove();
+				$( ".words_letters_inner:first" ).text("_");
 			}
+
 		}
 		for(let i = 0; i < wordlen; i++) {
 			$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
@@ -84,13 +101,20 @@ function fetchWordData() {
 		for(let i = 0; i < falseletcount; i++) {
 			$(".hangman_draw:eq(" + i + ")").css("visibility", "visible");
 		}
+		
+		if(falseletcount > 5) {
+			$(".game_over_text").css("visibility", "visible");
+		}
+
+		
+		
 
 	  })
 	  .catch(error => {
 		// Handle any errors that occur during the fetch request
 		console.log('Error:', error);
 	  });
-	setTimeout(fetchWordData, 5000);
+	setTimeout(fetchWordData, 10000);
 }
 
 
