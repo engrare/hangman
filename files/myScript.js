@@ -6,7 +6,7 @@ var url = $(location).attr("href");
 var player_num = parseInt(url[url.indexOf('?p')+2]);
 var playable = false;
 var myJson = {
-	"letter": "c"
+	"letter": "b" 
 };
 var wordURL = "";
 
