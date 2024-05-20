@@ -118,7 +118,7 @@ function fetchWordData() {
 	  .catch(error => {
 		console.log('Error:', error);
 	  });
-	setTimeout(fetchWordData, 3000);
+	setTimeout(fetchWordData, 2999);
 }
 
 
