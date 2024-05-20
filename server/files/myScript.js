@@ -1,16 +1,24 @@
 var encoded_token_part1 = "Z2hwX3FqMm5NbUNFMDRmb2dJQWt";
 var encoded_token_part2 = "wZGxudGY0b2gzYWNCVjJkbHBDSQ==";
 
-var trueword = "ananas";
-var hangingpercentage = 0;
-var worddatajson = null;
-var url = $(location).attr("href");
-var player_num = parseInt(url[url.indexOf('?p')+2]);
-var playable = false;
+
+var trueword = "";
+
 var myJson = {
-	"letter": "c",
-	"playername": ""
+	"word": "",
+	"falselets": "",
+	"turn": 1
 };
+
+var playersJson = [	{},{},{} ];
+
+var emptyletJson = {
+	"letter": ""
+};
+
+var is_first = true;
+var is_game_started = false;
+
 
 var token = atob(encoded_token_part1+encoded_token_part2);
 
@@ -24,8 +32,10 @@ const myInit = {
 	headers: myHeaders,
 };
 
-function fetchWordData() {
-	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/worddata.json?timestamp=' + new Date().getTime();
+
+function playerDataFetcher() {
+	var p1URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap1.json?timestamp=' + new Date().getTime();
+	
 	fetch(p1URL, myInit)
 .then(response => {
 	if (!response.ok) {
@@ -38,111 +48,210 @@ function fetchWordData() {
 	var base64Content = data.content;
 	var jsonString = atob(base64Content);
 	var myObj = JSON.parse(jsonString);
-		worddatajson = myObj;
-		console.log(worddatajson);
-		if(worddatajson.turn == player_num) {
-			playable = true;
-		} else {
-			playable = false;
+	playersJson[0] = myObj;
+	//console.log(playersJson[0]);
+	
+  })
+  .catch(error => {
+    // Handle any errors that occur during the fetch request
+    console.log('Error:', error);
+  });
+
+var p2URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
+	
+fetch(p2URL, myInit)
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok ' + response.statusText);
+	}
+	return response.json();
+})
+.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
+
+	playersJson[1] = myObj;
+	//console.log(playersJson[1]);
+	
+  })
+  .catch(error => {
+    // Handle any errors that occur during the fetch request
+    console.log('Error:', error);
+  });
+	
+var p3URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap3.json?timestamp=' + new Date().getTime();
+fetch(p3URL, myInit)
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok ' + response.statusText);
+	}
+	return response.json();
+	})
+	.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
+
+	playersJson[2] = myObj;
+	//console.log(playersJson[2]);
+	
+  })
+  .catch(error => {
+    // Handle any errors that occur during the fetch request
+    console.log('Error:', error);
+  });
+	if(is_first) {
+	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/worddata.json?timestamp=' + new Date().getTime();
+	fetch(wordURL, myInit)
+	.then(response => {
+		if (!response.ok) {
+			throw new Error('Network response was not ok ' + response.statusText);
 		}
-		$( ".player_inner_div" ).removeClass("current_player_inner_div");
-		$( ".player_inner_div:eq(" + (worddatajson.turn-1) + ")" ).addClass("current_player_inner_div");
-		
-		var wordlen = worddatajson.word.length;
-		currentwordlen = $( ".words_letters_inner" ).length;
-		if(currentwordlen < wordlen) {
-			for(let i = currentwordlen; i < wordlen; i++) {
-				$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
+		return response.json();
+	})
+.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
+	myJson = myObj;
+		if(is_first) {
+			if(myJson.word.length != 0) {
+				setWord(myJson.word);
+				$( ".submit_button_inner_2" ).text("RESTART");
+				is_game_started = true;
+				$( ".player_inner_div:eq("+ (myJson.turn-1) +")" ).addClass("current_player_inner_div");
+			} else {
+				uploadJSON(myJson);
 			}
-		} else {
-			for(let i = wordlen; i < currentwordlen; i++) {
-				$( ".words_letters_inner:eq("+ i +")" ).remove();
-			}
-		}
-		for(let i = 0; i < wordlen; i++) {
-			$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
-		}
-		var totaltel = $( ".letters_inner" ).length;
-		
-		var falseletcount = worddatajson.falselets.length;
-		var state;
-		for(let i = 0; i < totaltel; i++) {
-			state = 0;
-			for(let j = 0; j < falseletcount; j++) {
-				if(worddatajson.falselets[j].toUpperCase() == $( ".letters_inner:eq("+ i +")" ).text().toUpperCase()) {
-					$( ".letters_inner:eq("+ i +")" ).addClass("letters_inner_false");
-					state++;
-				}
-			}
-			for(let j = 0; j < wordlen; j++) {
-				if(worddatajson.word[j].toUpperCase() == $( ".letters_inner:eq("+ i +")" ).text().toUpperCase()) {
-					$( ".letters_inner:eq("+ i +")" ).addClass("letters_inner_true");
-					state++;
-				}
-			}
-			if(!state) {
-				$( ".letters_inner:eq("+ i +")" ).removeClass("letters_inner_false");
-				$( ".letters_inner:eq("+ i +")" ).removeClass("letters_inner_true");
-				
-			}
-				//$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
-		}
-		if(falseletcount == 0)
-			$(".hangman_draw").css("visibility", "hidden");
-		
-		for(let i = 0; i < falseletcount; i++) {
-			$(".hangman_draw:eq(" + i + ")").css("visibility", "visible");
 		}
 
-	  })
-	  .catch(error => {
-		// Handle any errors that occur during the fetch request
-		console.log('Error:', error);
-	  });
-	setTimeout(fetchWordData, 5000);
+	is_first = false;
+  })
+  .catch(error => {
+    // Handle any errors that occur during the fetch request
+    console.log('Error:', error);
+  });
+}
+
+	if(trueword != "") {
+		let inputletter = playersJson[myJson.turn-1].letter;
+		let word_changed = false;
+		if(inputletter != "") {
+			if(trueword.includes(inputletter)) {
+				if(!myJson.word.includes(inputletter)) {
+					for(let i = 0; i < trueword.length; i++) {
+						if(inputletter == trueword[i]) {
+							myJson.word = myJson.word.slice(0, i) + trueword[i] + myJson.word.slice(i+1, trueword.length);
+							setWord(myJson.word);
+							word_changed = true;
+						}
+					}
+				}
+			} else {
+				if(!myJson.falselets.includes(inputletter)) {
+					if (typeof inputletter !== 'undefined') {
+						myJson.falselets += inputletter;
+						word_changed = true;
+
+					}
+				}
+			}
+		}
+		if(word_changed) {
+			if(myJson.turn == 3) {
+				myJson.turn = 1;
+			} else {
+				myJson.turn++;
+			}
+			uploadJSON(myJson);
+		}
+	}
+
+	setTimeout(playerDataFetcher, 10000);
 }
 
 
 
 $( document ).ready(function() {
-	fetchWordData();
-	//uploadJSON(myJson);
-	
-	//$(".hangman_header_text").text("test yazı alanı");
-
-
-
-	
-$( ".letters_inner" ).on( "click", function() {
-	if(!($(this).hasClass( "letters_inner_true" ) || $(this).hasClass( "letters_inner_false" ))) {
-		$(".letters_inner").removeClass("letters_inner_selected");
-		$(this).addClass("letters_inner_selected");
-		myJson.letter = $(this).text();
-	}
-	
-});
+	trueword = readCookie("truewordcookiename");
+	$( ".submit_button_inner_2" ).text("SUBMIT");
+	playerDataFetcher();
 	
 $( ".submit_button_inner_1" ).on( "click", function() {
-	if(worddatajson.turn == player_num) {
+	if($( ".submit_button_inner_2" ).text() == "SUBMIT") {
+		trueword = $(".words_letters_inner").text().toUpperCase();
+		setCookie("truewordcookiename", trueword, 100);
+		myJson.word = "_";
+		for(var i = 1; i < trueword.length; i++) {
+			myJson.word += "_";
+		}
+		setWord(myJson.word);
 		uploadJSON(myJson);
+		setTimeout(function() {
+    		uploadJSON(emptyletJson, 1);
+		}, 500);
+		setTimeout(function() {
+    		uploadJSON(emptyletJson, 2);
+		}, 1000);
+		setTimeout(function() {
+    		uploadJSON(emptyletJson, 3);
+		}, 1500);
+		$( ".submit_button_inner_2" ).text("RESTART");
+	} else {
+		myJson.word = "";
+		myJson.falselets = "";
+		myJson.turn = 1;
+		trueword = "";
+		setTimeout(playerDataFetcher, 5000);
+		uploadJSON(myJson);
+		deleteCookie("truewordcookiename");
+		setWord("");
+		$( ".submit_button_inner_2" ).text("SUBMIT");
 	}
 
 });
-
   
 });
 
 
-function uploadJSON(json_object) {
+function setWord(newword) {
+	if(newword == "") {
+		$(".words_letters_inner:not(:first)").remove();
+		$(".words_letters_inner:first").attr('contenteditable','true').text("TEXT");
+	} else {
+		$(".words_letters_inner:not(:first)").remove();
+		$(".words_letters_inner").text("_").attr('contenteditable','false');
+		for(let i = 0; i < newword.length-1; i++) {
+			$(".words_letters_inner:first").clone().appendTo(".words_div").text("_");
+		}
+	}
+
+}
+
+
+
+
+
+function uploadJSON(json_object, playernum) {
   // Update the data as desired
   /*const updatedData = {
     someKey: 'çok seviyorum'
   };*/
-	
+
   //var token = key;
   const repoOwner = 'kayas2';
   var repoName = 'kayarepo1';
-  var filePath = './datap' + player_num + '.json';
+	var filePath = "";
+	if(arguments.length == 1) {
+		filePath = './worddata.json';
+	} else {
+		filePath = './datap' + playernum + '.json';
+	}
+  
 
   // Convert the updated data to JSON
   const updatedJsonData = JSON.stringify(json_object, null, 2);
@@ -192,16 +301,45 @@ function uploadJSON(json_object) {
     .then((response) => {
       if (response.ok) {
         console.log('JSON file updated successfully');
-		  $("#warning_for_acc_upload").text("Başarıyla güncelleme yapıldı.").show().fadeOut(1500);
+        console.log(json_object);
+		 // $("#warning_for_acc_upload").text("Başarıyla güncelleme yapıldı.").show().fadeOut(1500);
 		  return 0;
       } else {
-		  $("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
+		 // $("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
         throw new Error('Failed to update JSON file');
 		  return 1;
       }
     })
     .catch((error) => {
-	  ("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
+	  //("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
       console.error('Error updating JSON file:', error.message);
     });
+}
+
+
+function deleteCookie(cookieName) {
+    document.cookie = cookieName + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function readCookie(cookieName) {
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
