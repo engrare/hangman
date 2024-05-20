@@ -19,6 +19,8 @@ var is_first = true;
 var is_game_started = false;
 
 
+
+
 function playerDataFetcher() {
 	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json', {  cache: 'no-cache' })
   .then(response => response.json())
@@ -76,7 +78,7 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
     console.log('Error:', error);
   });
 }
-	if(!is_first) {
+
 	let inputletter = playersJson[myJson.turn-1].letter;
 	let word_changed = false;
 	if(inputletter != "") {
@@ -108,8 +110,8 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
 		}
 		uploadJSON(myJson);
 	}
-	}
-	console.log(playersJson[0] + " " + playersJson[1] + " " + playersJson[2] + " ");
+		
+	console.log(playersJson[0].letter + " " + playersJson[1].letter + " " + playersJson[2].letter + " " + myJson.word + " ");
 	setTimeout(playerDataFetcher, 5000);
 }
 
@@ -240,6 +242,7 @@ function uploadJSON(json_object, playernum) {
     .then((response) => {
       if (response.ok) {
         console.log('JSON file updated successfully');
+        console.log(json_object);
 		 // $("#warning_for_acc_upload").text("Başarıyla güncelleme yapıldı.").show().fadeOut(1500);
 		  return 0;
       } else {
