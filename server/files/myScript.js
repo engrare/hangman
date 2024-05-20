@@ -32,6 +32,7 @@ const myInit = {
 	headers: myHeaders,
 };
 
+var fetcher_timeout_id;
 
 function playerDataFetcher() {
 	var p1URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap1.json?timestamp=' + new Date().getTime();
@@ -160,7 +161,7 @@ fetch(p3URL, myInit)
 		}
 	}
 
-	setTimeout(playerDataFetcher, 5000);
+	fetcher_timeout_id = setTimeout(playerDataFetcher, 5000);
 }
 
 
@@ -172,6 +173,7 @@ $( document ).ready(function() {
 	
 $( ".submit_button_inner_1" ).on( "click", function() {
 	if($( ".submit_button_inner_2" ).text() == "SUBMIT") {
+		clearTimeout(fetcher_timeout_id);
 		trueword = $(".words_letters_inner").text().toUpperCase();
 		setCookie("truewordcookiename", trueword, 100);
 		myJson.word = "_";
@@ -182,13 +184,15 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		uploadJSON(myJson);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 1);
-		}, 7000);
+		}, 500);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 2);
-		}, 8000);
+		}, 1000);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 3);
-		}, 9000);
+		}, 1500);
+		
+		setTimeout(playerDataFetcher, 5000);
 		$( ".submit_button_inner_2" ).text("RESTART");
 	} else {
 		myJson.word = "";
