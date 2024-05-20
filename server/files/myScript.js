@@ -18,15 +18,6 @@ var emptyletJson = {
 var is_first = true;
 var is_game_started = false;
 
-var myHeaders = new Headers();
-myHeaders.append('pragma', 'no-cache');
-myHeaders.append('cache-control', 'no-cache');
-
-var myInit = {
-  method: 'GET',
-  headers: myHeaders,
-};
-
 
 function playerDataFetcher() {
 	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json', {  cache: 'no-cache' })
@@ -131,7 +122,7 @@ $( document ).ready(function() {
 	
 $( ".submit_button_inner_1" ).on( "click", function() {
 	if($( ".submit_button_inner_2" ).text() == "SUBMIT") {
-		trueword = $(".words_letters_inner").text();
+		trueword = $(".words_letters_inner").text().toUpperCase();
 		setCookie("truewordcookiename", trueword, 100);
 		myJson.word = "_";
 		for(var i = 1; i < trueword.length; i++) {
