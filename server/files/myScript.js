@@ -161,7 +161,7 @@ fetch(p3URL, myInit)
 		}
 	}
 
-	fetcher_timeout_id = setTimeout(playerDataFetcher, 5000);
+	setTimeout(playerDataFetcher, 5000);
 }
 
 
@@ -173,7 +173,6 @@ $( document ).ready(function() {
 	
 $( ".submit_button_inner_1" ).on( "click", function() {
 	if($( ".submit_button_inner_2" ).text() == "SUBMIT") {
-		clearTimeout(fetcher_timeout_id);
 		trueword = $(".words_letters_inner").text().toUpperCase();
 		setCookie("truewordcookiename", trueword, 100);
 		myJson.word = "_";
@@ -181,27 +180,23 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 			myJson.word += "_";
 		}
 		setWord(myJson.word);
-		setTimeout(function() {
-    		uploadJSON(emptyletJson, 1);
-		}, 1000);
-		setTimeout(function() {
-    		uploadJSON(emptyletJson, 2);
-		}, 2000);
-		setTimeout(function() {
-    		uploadJSON(emptyletJson, 3);
-		}, 3000);
 		uploadJSON(myJson);
-
-		
-		setTimeout(playerDataFetcher, 5000);
 		$( ".submit_button_inner_2" ).text("RESTART");
 	} else {
 		myJson.word = "";
 		myJson.falselets = "";
 		myJson.turn = 1;
 		trueword = "";
-		setTimeout(playerDataFetcher, 10000);
 		uploadJSON(myJson);
+		setTimeout(function() {
+    		uploadJSON(emptyletJson, 1);
+		}, 500);
+		setTimeout(function() {
+    		uploadJSON(emptyletJson, 2);
+		}, 1000);
+		setTimeout(function() {
+    		uploadJSON(emptyletJson, 3);
+		}, 1500);
 		deleteCookie("truewordcookiename");
 		setWord("");
 		$( ".submit_button_inner_2" ).text("SUBMIT");
