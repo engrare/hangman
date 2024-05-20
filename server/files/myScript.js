@@ -18,13 +18,10 @@ var emptyletJson = {
 var is_first = true;
 var is_game_started = false;
 
-var cache = {};
-
-
-
 
 function playerDataFetcher() {
-	fetchData('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json')
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json')
+  .then(response => response.json())
   .then(myObj => {
 	playersJson[0] = myObj;
 	console.log(playersJson[0]);
@@ -36,7 +33,8 @@ function playerDataFetcher() {
   });
 
 
-	fetchData('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json')
+fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json')
+  .then(response => response.json())
   .then(myObj => {
 	playersJson[1] = myObj;
 	//console.log(playersJson[1]);
@@ -47,7 +45,7 @@ function playerDataFetcher() {
     console.log('Error:', error);
   });
 
-	fetchData('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json?')
+fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json')
   .then(response => response.json())
   .then(myObj => {
 	playersJson[2] = myObj;
@@ -59,7 +57,7 @@ function playerDataFetcher() {
     console.log('Error:', error);
   });
 	if(is_first) {
-	fetchData('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json')
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json')
   .then(response => response.json())
   .then(myObj => {
 	myJson = myObj;
@@ -268,19 +266,6 @@ function readCookie(cookieName) {
         }
     }
     return "";
-}
-
-function fetchData(url) {
-  if (cache[url]) {
-    return Promise.resolve(cache[url]);
-  }
-
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      cache[url] = data;
-      return data;
-    });
 }
 
 function setCookie(cname, cvalue, exdays) {
