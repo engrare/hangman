@@ -62,6 +62,7 @@ function fetchWordData() {
 			} else {
 				$( ".words_letters_inner:not(:first)" ).remove();
 				$( ".words_letters_inner:first" ).text("_");
+				$(".game_over_text").css("display", "none");
 			}
 
 		}
