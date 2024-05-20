@@ -1,8 +1,6 @@
 var encoded_token_part1 = "Z2hwX3FqMm5NbUNFMDRmb2dJQWt";
 var encoded_token_part2 = "wZGxudGY0b2gzYWNCVjJkbHBDSQ==";
 
-var trueword = "ananas";
-var hangingpercentage = 0;
 var worddatajson = null;
 var url = $(location).attr("href");
 var player_num = parseInt(url[url.indexOf('?p')+2]);
@@ -35,7 +33,7 @@ function fetchWordData() {
 	return response.json();
 })
 .then(data => {
-	// The content is base64 encoded, so we need to decode it
+	
 	var base64Content = data.content;
 	var jsonString = atob(base64Content);
 	var myObj = JSON.parse(jsonString);
@@ -93,7 +91,6 @@ function fetchWordData() {
 				$( ".letters_inner:eq("+ i +")" ).removeClass("letters_inner_true");
 				
 			}
-				//$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
 		}
 		if(falseletcount == 0)
 			$(".hangman_draw").css("visibility", "hidden");
@@ -103,7 +100,7 @@ function fetchWordData() {
 		}
 		
 		if(falseletcount > 5) {
-			$(".game_over_text").css("visibility", "visible");
+			$(".game_over_text").css("display", "block");
 		}
 
 		
@@ -111,19 +108,15 @@ function fetchWordData() {
 
 	  })
 	  .catch(error => {
-		// Handle any errors that occur during the fetch request
 		console.log('Error:', error);
 	  });
-	setTimeout(fetchWordData, 10000);
+	setTimeout(fetchWordData, 5000);
 }
 
 
 
 $( document ).ready(function() {
 	fetchWordData();
-	//uploadJSON(myJson);
-	
-	//$(".hangman_header_text").text("test yazı alanı");
 
 
 
@@ -149,20 +142,14 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 
 
 function uploadJSON(json_object) {
-  // Update the data as desired
-  /*const updatedData = {
-    someKey: 'çok seviyorum'
-  };*/
-	
-  //var token = key;
   const repoOwner = 'kayas2';
   var repoName = 'kayarepo1';
   var filePath = './datap' + player_num + '.json';
 
-  // Convert the updated data to JSON
+
   const updatedJsonData = JSON.stringify(json_object, null, 2);
 
-  // Fetch the current file details, including SHA
+
   fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
     method: 'GET',
     headers: {
@@ -179,18 +166,13 @@ function uploadJSON(json_object) {
     })
     .then((fileData) => {
       const currentSHA = fileData.sha;
-
-      // Remove backslashes before quotes
-      //const contentWithoutBackslashes = updatedJsonData.replace(/\\/g, '').replace(/^"(.*)"$/, '$1');
-      //const contentWithoutBackslashes = updatedJsonData.replace(/^"(.*)"$/, '$1');
       const contentWithoutBackslashes = updatedJsonData;
 
-      // Encode the JSON data to base64
       const encoder = new TextEncoder();
       const data = encoder.encode(contentWithoutBackslashes);
       const contentBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(data)));
 
-      // Make an HTTP request to update the file
+
       return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
         method: 'PUT',
         headers: {
