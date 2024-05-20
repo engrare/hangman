@@ -181,7 +181,6 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 			myJson.word += "_";
 		}
 		setWord(myJson.word);
-		uploadJSON(myJson);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 1);
 		}, 500);
@@ -191,6 +190,8 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 3);
 		}, 1500);
+		uploadJSON(myJson);
+
 		
 		setTimeout(playerDataFetcher, 5000);
 		$( ".submit_button_inner_2" ).text("RESTART");
