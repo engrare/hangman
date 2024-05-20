@@ -67,8 +67,9 @@ function fetchWordData() {
 			}
 				//$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
 		}
+		if(falseletcount == 0)
+			$(".hangman_draw").css("visibility", "hidden");
 		
-		$(".hangman_draw").css("visibility", "hidden");
 		for(let i = 0; i < falseletcount; i++) {
 			$(".hangman_draw:eq(" + i + ")").css("visibility", "visible");
 		}
