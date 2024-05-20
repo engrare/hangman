@@ -18,13 +18,22 @@ var emptyletJson = {
 var is_first = true;
 var is_game_started = false;
 
+var myHeaders = new Headers();
+myHeaders.append('pragma', 'no-cache');
+myHeaders.append('cache-control', 'no-cache');
+
+var myInit = {
+  method: 'GET',
+  headers: myHeaders,
+};
+
 
 function playerDataFetcher() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json')
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json', {  cache: 'no-cache' })
   .then(response => response.json())
   .then(myObj => {
 	playersJson[0] = myObj;
-	console.log(playersJson[0]);
+	//console.log(playersJson[0]);
 	
   })
   .catch(error => {
@@ -33,7 +42,7 @@ function playerDataFetcher() {
   });
 
 
-fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json')
+fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json', {  cache: 'no-cache' })
   .then(response => response.json())
   .then(myObj => {
 	playersJson[1] = myObj;
@@ -45,7 +54,7 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json')
     console.log('Error:', error);
   });
 
-fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json')
+fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  cache: 'no-cache' })
   .then(response => response.json())
   .then(myObj => {
 	playersJson[2] = myObj;
@@ -57,7 +66,7 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json')
     console.log('Error:', error);
   });
 	if(is_first) {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json')
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', {  cache: 'no-cache' })
   .then(response => response.json())
   .then(myObj => {
 	myJson = myObj;
@@ -102,7 +111,7 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json')
 		}
 		uploadJSON(myJson);
 	}
-	
+	console.log(playersJson[0] + " " + playersJson[1] + " " + playersJson[2] + " ");
 	setTimeout(playerDataFetcher, 5000);
 }
 
