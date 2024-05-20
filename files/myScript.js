@@ -67,7 +67,7 @@ function fetchWordData() {
 			}
 
 		}
-		if(!worddatajson.word.includes("_")) {
+		if(worddatajson.word != "" && !worddatajson.word.includes("_")) {
 			$(".game_over_text").css("display", "block").text("YOU WON!!").css("color", "#7ec400");
 		}
 		
@@ -98,8 +98,10 @@ function fetchWordData() {
 				
 			}
 		}
-		if(falseletcount == 0)
+		if(falseletcount == 0) {
 			$(".hangman_draw").css("visibility", "hidden");
+			
+		}
 		
 		for(let i = 0; i < falseletcount; i++) {
 			$(".hangman_draw:eq(" + i + ")").css("visibility", "visible");
