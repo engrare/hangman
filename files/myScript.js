@@ -63,6 +63,7 @@ function fetchWordData() {
 				$( ".words_letters_inner:not(:first)" ).remove();
 				$( ".words_letters_inner:first" ).text("_");
 				$(".game_over_text").css("display", "none");
+				$(".letters_inner").removeClass("letters_inner_selected");
 				myJson.letter = "";
 			}
 
