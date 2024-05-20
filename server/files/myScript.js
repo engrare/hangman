@@ -44,16 +44,13 @@ function playerDataFetcher() {
 	return response.json();
 })
 .then(data => {
-	// The content is base64 encoded, so we need to decode it
 	var base64Content = data.content;
 	var jsonString = atob(base64Content);
 	var myObj = JSON.parse(jsonString);
 	playersJson[0] = myObj;
-	//console.log(playersJson[0]);
 	
   })
   .catch(error => {
-    // Handle any errors that occur during the fetch request
     console.log('Error:', error);
   });
 
@@ -67,17 +64,14 @@ fetch(p2URL, myInit)
 	return response.json();
 })
 .then(data => {
-	// The content is base64 encoded, so we need to decode it
 	var base64Content = data.content;
 	var jsonString = atob(base64Content);
 	var myObj = JSON.parse(jsonString);
 
 	playersJson[1] = myObj;
-	//console.log(playersJson[1]);
 	
   })
   .catch(error => {
-    // Handle any errors that occur during the fetch request
     console.log('Error:', error);
   });
 	
@@ -90,17 +84,14 @@ fetch(p3URL, myInit)
 	return response.json();
 	})
 	.then(data => {
-	// The content is base64 encoded, so we need to decode it
 	var base64Content = data.content;
 	var jsonString = atob(base64Content);
 	var myObj = JSON.parse(jsonString);
 
 	playersJson[2] = myObj;
-	//console.log(playersJson[2]);
 	
   })
   .catch(error => {
-    // Handle any errors that occur during the fetch request
     console.log('Error:', error);
   });
 	if(is_first) {
@@ -113,7 +104,6 @@ fetch(p3URL, myInit)
 		return response.json();
 	})
 .then(data => {
-	// The content is base64 encoded, so we need to decode it
 	var base64Content = data.content;
 	var jsonString = atob(base64Content);
 	var myObj = JSON.parse(jsonString);
@@ -132,7 +122,6 @@ fetch(p3URL, myInit)
 	is_first = false;
   })
   .catch(error => {
-    // Handle any errors that occur during the fetch request
     console.log('Error:', error);
   });
 }
@@ -171,7 +160,7 @@ fetch(p3URL, myInit)
 		}
 	}
 
-	setTimeout(playerDataFetcher, 10000);
+	setTimeout(playerDataFetcher, 5000);
 }
 
 
@@ -237,12 +226,6 @@ function setWord(newword) {
 
 
 function uploadJSON(json_object, playernum) {
-  // Update the data as desired
-  /*const updatedData = {
-    someKey: 'çok seviyorum'
-  };*/
-
-  //var token = key;
   const repoOwner = 'kayas2';
   var repoName = 'kayarepo1';
 	var filePath = "";
@@ -253,10 +236,8 @@ function uploadJSON(json_object, playernum) {
 	}
   
 
-  // Convert the updated data to JSON
   const updatedJsonData = JSON.stringify(json_object, null, 2);
 
-  // Fetch the current file details, including SHA
   fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
     method: 'GET',
     headers: {
@@ -273,18 +254,12 @@ function uploadJSON(json_object, playernum) {
     })
     .then((fileData) => {
       const currentSHA = fileData.sha;
-
-      // Remove backslashes before quotes
-      //const contentWithoutBackslashes = updatedJsonData.replace(/\\/g, '').replace(/^"(.*)"$/, '$1');
-      //const contentWithoutBackslashes = updatedJsonData.replace(/^"(.*)"$/, '$1');
       const contentWithoutBackslashes = updatedJsonData;
 
-      // Encode the JSON data to base64
       const encoder = new TextEncoder();
       const data = encoder.encode(contentWithoutBackslashes);
       const contentBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(data)));
 
-      // Make an HTTP request to update the file
       return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
         method: 'PUT',
         headers: {
@@ -302,16 +277,13 @@ function uploadJSON(json_object, playernum) {
       if (response.ok) {
         console.log('JSON file updated successfully');
         console.log(json_object);
-		 // $("#warning_for_acc_upload").text("Başarıyla güncelleme yapıldı.").show().fadeOut(1500);
 		  return 0;
       } else {
-		 // $("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
         throw new Error('Failed to update JSON file');
 		  return 1;
       }
     })
     .catch((error) => {
-	  //("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
       console.error('Error updating JSON file:', error.message);
     });
 }
