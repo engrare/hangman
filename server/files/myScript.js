@@ -161,7 +161,7 @@ fetch(p3URL, myInit)
 		}
 	}
 
-	setTimeout(playerDataFetcher, 5000);
+	setTimeout(playerDataFetcher, 3000);
 }
 
 
