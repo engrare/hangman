@@ -22,9 +22,19 @@ var is_game_started = false;
 
 
 function playerDataFetcher() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap1.json', {  cache: 'no-cache' })
-  .then(response => response.json())
-  .then(myObj => {
+	var p1URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap1.json?timestamp=' + new Date().getTime();
+	fetch(p1URL)
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok ' + response.statusText);
+	}
+	return response.json();
+})
+.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
 	playersJson[0] = myObj;
 	//console.log(playersJson[0]);
 	
@@ -34,10 +44,20 @@ function playerDataFetcher() {
     console.log('Error:', error);
   });
 
+var p2URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
+fetch(p2URL)
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok ' + response.statusText);
+	}
+	return response.json();
+})
+.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
 
-fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json', {  cache: 'no-cache' })
-  .then(response => response.json())
-  .then(myObj => {
 	playersJson[1] = myObj;
 	//console.log(playersJson[1]);
 	
@@ -46,10 +66,21 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap2.json', {  
     // Handle any errors that occur during the fetch request
     console.log('Error:', error);
   });
+	
+var p3URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
+fetch(p3URL)
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok ' + response.statusText);
+	}
+	return response.json();
+	})
+	.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
 
-fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  cache: 'no-cache' })
-  .then(response => response.json())
-  .then(myObj => {
 	playersJson[2] = myObj;
 	//console.log(playersJson[2]);
 	
@@ -59,9 +90,19 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
     console.log('Error:', error);
   });
 	if(is_first) {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', {  cache: 'no-cache' })
-  .then(response => response.json())
-  .then(myObj => {
+	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
+	fetch(wordURL)
+	.then(response => {
+		if (!response.ok) {
+			throw new Error('Network response was not ok ' + response.statusText);
+		}
+		return response.json();
+	})
+.then(data => {
+	// The content is base64 encoded, so we need to decode it
+	var base64Content = data.content;
+	var jsonString = atob(base64Content);
+	var myObj = JSON.parse(jsonString);
 	myJson = myObj;
 	if(myJson.word.length != 0) {
 		setWord(myJson.word);
