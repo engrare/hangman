@@ -19,11 +19,22 @@ var is_first = true;
 var is_game_started = false;
 
 
+var token = atob(encoded_token_part1+encoded_token_part2);
+
+
+const myHeaders = new Headers({
+	'Authorization': `token ${token}`
+});
+
+const myInit = {
+	method: 'GET',
+	headers: myHeaders,
+};
 
 
 function playerDataFetcher() {
 	var p1URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap1.json?timestamp=' + new Date().getTime();
-	fetch(p1URL)
+	fetch(p1URL, myInit)
 .then(response => {
 	if (!response.ok) {
 		throw new Error('Network response was not ok ' + response.statusText);
@@ -45,7 +56,7 @@ function playerDataFetcher() {
   });
 
 var p2URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
-fetch(p2URL)
+fetch(p2URL, myInit)
 .then(response => {
 	if (!response.ok) {
 		throw new Error('Network response was not ok ' + response.statusText);
@@ -68,7 +79,7 @@ fetch(p2URL)
   });
 	
 var p3URL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
-fetch(p3URL)
+fetch(p3URL, myInit)
 .then(response => {
 	if (!response.ok) {
 		throw new Error('Network response was not ok ' + response.statusText);
@@ -91,7 +102,7 @@ fetch(p3URL)
   });
 	if(is_first) {
 	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/datap2.json?timestamp=' + new Date().getTime();
-	fetch(wordURL)
+	fetch(wordURL, myInit)
 	.then(response => {
 		if (!response.ok) {
 			throw new Error('Network response was not ok ' + response.statusText);
@@ -223,7 +234,7 @@ function uploadJSON(json_object, playernum) {
   /*const updatedData = {
     someKey: 'çok seviyorum'
   };*/
-	var token = atob(encoded_token_part1+encoded_token_part2);
+
   //var token = key;
   const repoOwner = 'kayas2';
   var repoName = 'kayarepo1';
