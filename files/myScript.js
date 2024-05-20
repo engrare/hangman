@@ -67,6 +67,10 @@ function fetchWordData() {
 			}
 
 		}
+		if(!worddatajson.word.includes("_")) {
+			$(".game_over_text").css("display", "block").text("YOU WON!!").css("color", "#7ec400");
+		}
+		
 		for(let i = 0; i < wordlen; i++) {
 			$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
 		}
@@ -102,7 +106,7 @@ function fetchWordData() {
 		}
 		
 		if(falseletcount > 5) {
-			$(".game_over_text").css("display", "block");
+			$(".game_over_text").css("display", "block").text("GAME OVER!!").css("color", "red");
 		}
 
 		
