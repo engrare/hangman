@@ -13,7 +13,7 @@ var myJson = {
 
 
 function fetchWordData() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json?' + new Date().getTime())
+	fetchData('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json?' + new Date().getTime())
 	  .then(response => response.json())
 	  .then(myObj => {
 		worddatajson = myObj;
@@ -109,12 +109,6 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 });
 
 
-
-
-
-
-
-
 function uploadJSON(json_object) {
   // Update the data as desired
   /*const updatedData = {
@@ -185,5 +179,18 @@ function uploadJSON(json_object) {
     .catch((error) => {
 	  ("#warning_for_acc_upload").text("Güncelleme başarısız oldu.").show().fadeOut(1500);
       console.error('Error updating JSON file:', error.message);
+    });
+}
+
+function fetchData(url) {
+  if (cache[url]) {
+    return Promise.resolve(cache[url]);
+  }
+
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      cache[url] = data;
+      return data;
     });
 }
