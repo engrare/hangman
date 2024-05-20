@@ -161,7 +161,7 @@ fetch(p3URL, myInit)
 		}
 	}
 
-	setTimeout(playerDataFetcher, 2999);
+	fetcher_timeout_id = setTimeout(playerDataFetcher, 3000);
 }
 
 
@@ -183,6 +183,7 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		uploadJSON(myJson);
 		$( ".submit_button_inner_2" ).text("RESTART");
 	} else {
+		clearTimeout(fetcher_timeout_id);
 		myJson.word = "";
 		myJson.falselets = "";
 		myJson.turn = 1;
@@ -190,16 +191,17 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		uploadJSON(myJson);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 1);
-		}, 500);
-		setTimeout(function() {
-    		uploadJSON(emptyletJson, 2);
 		}, 1000);
 		setTimeout(function() {
+    		uploadJSON(emptyletJson, 2);
+		}, 2000);
+		setTimeout(function() {
     		uploadJSON(emptyletJson, 3);
-		}, 1500);
+		}, 3000);
 		deleteCookie("truewordcookiename");
 		setWord("");
 		$( ".submit_button_inner_2" ).text("SUBMIT");
+		setTimeout(playerDataFetcher, 5000);
 	}
 
 });
