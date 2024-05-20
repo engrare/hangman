@@ -11,9 +11,18 @@ var myJson = {
 	"letter": "c"
 };
 
+var myHeaders = new Headers();
+myHeaders.append('pragma', 'no-cache');
+myHeaders.append('cache-control', 'no-cache');
+
+var myInit = {
+  method: 'GET',
+  headers: myHeaders,
+};
+
 
 function fetchWordData() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json?' + new Date().getTime())
+	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', myInit)
 	  .then(response => response.json())
 	  .then(myObj => {
 		worddatajson = myObj;
@@ -33,7 +42,7 @@ function fetchWordData() {
 				$( ".words_letters_inner:first" ).clone().appendTo( ".words_div" );
 			}
 		} else {
-			for(let i = wordlen; i < currentwordlen; i++) {
+			for(let i = wordlen; i < currentwordlen+1; i++) {
 				$( ".words_letters_inner:eq("+ i +")" ).remove();
 			}
 		}
@@ -66,6 +75,7 @@ function fetchWordData() {
 				//$( ".words_letters_inner:eq("+ i +")" ).text(worddatajson.word[i]);
 		}
 		
+		$(".hangman_draw").css("visibility", "invisible");
 		for(let i = 0; i < falseletcount; i++) {
 			$(".hangman_draw:eq(" + i + ")").css("visibility", "visible");
 		}
