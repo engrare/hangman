@@ -182,20 +182,20 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		uploadJSON(myJson);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 1);
-		}, 4000);
+		}, 7000);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 2);
-		}, 4500);
+		}, 8000);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 3);
-		}, 5000);
+		}, 9000);
 		$( ".submit_button_inner_2" ).text("RESTART");
 	} else {
 		myJson.word = "";
 		myJson.falselets = "";
 		myJson.turn = 1;
 		trueword = "";
-		setTimeout(playerDataFetcher, 5000);
+		setTimeout(playerDataFetcher, 10000);
 		uploadJSON(myJson);
 		deleteCookie("truewordcookiename");
 		setWord("");
