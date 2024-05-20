@@ -12,12 +12,21 @@ var myJson = {
 	"playername": ""
 };
 
+var token = atob(encoded_token_part1+encoded_token_part2);
 
 
+const myHeaders = new Headers({
+	'Authorization': `token ${token}`
+});
+
+const myInit = {
+	method: 'GET',
+	headers: myHeaders,
+};
 
 function fetchWordData() {
 	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/worddata.json?timestamp=' + new Date().getTime();
-	fetch(wordURL)
+	fetch(wordURL, myInit)
 	  .then(response => response.json())
 	  .then(myObj => {
 		worddatajson = myObj;
@@ -120,7 +129,7 @@ function uploadJSON(json_object) {
   /*const updatedData = {
     someKey: 'çok seviyorum'
   };*/
-	var token = atob(encoded_token_part1+encoded_token_part2);
+	
   //var token = key;
   const repoOwner = 'kayas2';
   var repoName = 'kayarepo1';
