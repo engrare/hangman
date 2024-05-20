@@ -75,6 +75,8 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
 		$( ".submit_button_inner_2" ).text("RESTART");
 		is_game_started = true;
 		$( ".player_inner_div:eq("+ (myJson.turn-1) +")" ).addClass("current_player_inner_div");
+	} else {
+		uploadJSON(myJson);
 	}
 	is_first = false;
   })
@@ -83,6 +85,7 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
     console.log('Error:', error);
   });
 }
+	if(!is_first) {
 	let inputletter = playersJson[myJson.turn-1].letter;
 	let word_changed = false;
 	if(inputletter != "") {
@@ -98,8 +101,11 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
 			}
 		} else {
 			if(!myJson.falselets.includes(inputletter)) {
-				myJson.falselets += inputletter;
-				word_changed = true;
+				if (typeof inputletter !== 'undefined') {
+					myJson.falselets += inputletter;
+					word_changed = true;
+					
+				}
 			}
 		}
 	}
@@ -110,6 +116,7 @@ fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json', {  
 			myJson.turn++;
 		}
 		uploadJSON(myJson);
+	}
 	}
 	console.log(playersJson[0] + " " + playersJson[1] + " " + playersJson[2] + " ");
 	setTimeout(playerDataFetcher, 5000);
