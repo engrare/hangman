@@ -182,13 +182,13 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		uploadJSON(myJson);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 1);
-		}, 500);
+		}, 4000);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 2);
-		}, 1000);
+		}, 4500);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 3);
-		}, 1500);
+		}, 5000);
 		$( ".submit_button_inner_2" ).text("RESTART");
 	} else {
 		myJson.word = "";
