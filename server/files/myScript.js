@@ -183,13 +183,13 @@ $( ".submit_button_inner_1" ).on( "click", function() {
 		setWord(myJson.word);
 		setTimeout(function() {
     		uploadJSON(emptyletJson, 1);
-		}, 500);
-		setTimeout(function() {
-    		uploadJSON(emptyletJson, 2);
 		}, 1000);
 		setTimeout(function() {
+    		uploadJSON(emptyletJson, 2);
+		}, 2000);
+		setTimeout(function() {
     		uploadJSON(emptyletJson, 3);
-		}, 1500);
+		}, 3000);
 		uploadJSON(myJson);
 
 		
