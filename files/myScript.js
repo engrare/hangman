@@ -13,20 +13,11 @@ var myJson = {
 };
 
 
-        var myHeaders = new Headers();
-        myHeaders.append('pragma', 'no-cache');
-        myHeaders.append('cache-control', 'no-cache');
 
-        var myInit = {
-            method: 'GET',
-            headers: myHeaders,
-        };
-
-        var myRequest = new Request('https://raw.githubusercontent.com/kayas2/kayarepo1/main/datap3.json');
 
 function fetchWordData() {
-	fetch('https://raw.githubusercontent.com/kayas2/kayarepo1/main/worddata.json', {  
-  method: 'GET', cache: 'no-cache' })
+	var wordURL = 'https://api.github.com/repos/kayas2/kayarepo1/contents/worddata.json?timestamp=' + new Date().getTime();
+	fetch(wordURL)
 	  .then(response => response.json())
 	  .then(myObj => {
 		worddatajson = myObj;
